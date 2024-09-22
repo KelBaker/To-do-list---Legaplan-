@@ -13,7 +13,7 @@ export default function Navbar() {
             </Head>
             <nav className={navbarStyles.navbar}>
                 <Image 
-                    src="/images/logo.svg" // Certifique-se de que o caminho esteja correto
+                    src="/images/logo.svg"
                     alt="Logo"
                     width={150} 
                     height={36} 

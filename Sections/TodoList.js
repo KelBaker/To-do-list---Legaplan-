@@ -1,6 +1,6 @@
-"use client"
+"use client" 
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styles from './TodoList.module.scss'
 
 export default function TodoList() {
@@ -11,24 +11,52 @@ export default function TodoList() {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [taskToDelete, setTaskToDelete] = useState(null)
 
+  
+  useEffect(() => {
+    const savedTasks = JSON.parse(localStorage.getItem('tasks')) || []
+    const savedCompletedTasks = JSON.parse(localStorage.getItem('completedTasks')) || []
+    setTasks(savedTasks)
+    setCompletedTasks(savedCompletedTasks)
+  }, [])
+
+  const saveTasksToLocalStorage = () => {
+    localStorage.setItem('tasks', JSON.stringify(tasks))
+    localStorage.setItem('completedTasks', JSON.stringify(completedTasks))
+  }
+
   const toggleTaskCompletion = (id) => {
-    const taskToToggle = tasks.find((task) => task.id === id) || completedTasks.find((task) => task.id === id)
+    const taskToToggle = tasks.find((task) => task.id === id)
+    const completedTaskToToggle = completedTasks.find((task) => task.id === id)
 
     if (taskToToggle) {
-      if (!taskToToggle.completed) {
-        setTasks(tasks.filter((task) => task.id !== id))
-        setCompletedTasks([...completedTasks, { ...taskToToggle, completed: true }])
-      } else {
-        setCompletedTasks(completedTasks.filter((task) => task.id !== id))
-        setTasks([...tasks, { ...taskToToggle, completed: false }])
-      }
+      
+      const updatedTasks = tasks.filter((task) => task.id !== id)
+      const updatedCompletedTasks = [...completedTasks, { ...taskToToggle, completed: true }]
+
+      setTasks(updatedTasks)
+      setCompletedTasks(updatedCompletedTasks)
+      localStorage.setItem('tasks', JSON.stringify(updatedTasks)) 
+      localStorage.setItem('completedTasks', JSON.stringify(updatedCompletedTasks)) 
+    } else if (completedTaskToToggle) {
+      
+      const updatedCompletedTasks = completedTasks.filter((task) => task.id !== id)
+      const updatedTasks = [...tasks, { ...completedTaskToToggle, completed: false }]
+
+      setCompletedTasks(updatedCompletedTasks)
+      setTasks(updatedTasks)
+      localStorage.setItem('tasks', JSON.stringify(updatedTasks)) 
+      localStorage.setItem('completedTasks', JSON.stringify(updatedCompletedTasks)) 
     }
   }
 
   const deleteTask = () => {
     if (taskToDelete) {
-      setTasks(tasks.filter((task) => task.id !== taskToDelete.id))
-      setCompletedTasks(completedTasks.filter((task) => task.id !== taskToDelete.id))
+      const updatedTasks = tasks.filter((task) => task.id !== taskToDelete.id)
+      const updatedCompletedTasks = completedTasks.filter((task) => task.id !== taskToDelete.id)
+      setTasks(updatedTasks)
+      setCompletedTasks(updatedCompletedTasks)
+      localStorage.setItem('tasks', JSON.stringify(updatedTasks)) 
+      localStorage.setItem('completedTasks', JSON.stringify(updatedCompletedTasks)) 
       closeDeleteModal()
     }
   }
@@ -45,8 +73,12 @@ export default function TodoList() {
 
   const addTask = () => {
     if (!newTask.trim()) return
-    const newTaskItem = { id: tasks.length + completedTasks.length + 1, text: newTask, completed: false }
-    setTasks([...tasks, newTaskItem])
+    const newTaskItem = { id: Date.now(), text: newTask, completed: false }
+    setTasks((prevTasks) => {
+      const updatedTasks = [...prevTasks, newTaskItem]
+      localStorage.setItem('tasks', JSON.stringify(updatedTasks)) 
+      return updatedTasks
+    })
     setIsModalOpen(false)
     setNewTask('')
   }
