@@ -1,0 +1,253 @@
+// Variáveis
+$white: #ffffff;
+$light-gray: #EAECF0;
+$gray: #D7DDE9;
+$dark-gray: #333;
+$blue: #007bff;
+$modal-bg: rgba(0, 0, 0, 0.5);
+$shadow: 0px 24px 48px 12px rgba(16, 24, 40, 0.18);
+$hover-bg: #F7F9FD;
+
+// Estilos gerais para a lista de tarefas
+.todoList {
+  background-color: $white;
+  padding: 1.5rem;
+  border-radius: 16px;
+  width: 450px;
+  margin: 3em auto 0;
+  border: 0.2px solid $light-gray;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.123);
+}
+
+// Estilos para o cabeçalho da lista de tarefas
+.header {
+  font-size: 16px;
+  color: #00000083;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-weight: 200;
+  padding: 10px 0;
+}
+
+// Seção de tarefas concluídas
+.completedTasksSection {
+  margin-top: 15px;
+}
+
+// Estilos para cada item da tarefa
+.taskItem,
+.completedTaskItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  padding: 0.9rem 1.2rem;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+  border: 1px dashed rgba(16, 24, 40, 0.1);
+  
+  &:hover {
+    background-color: $hover-bg;
+  }
+}
+
+.completedTaskItem {
+  .taskText {
+    text-decoration: line-through;
+    color: #999;
+  }
+}
+
+// Estilo para a caixa de seleção
+.checkbox {
+  display: none;
+
+  + .customCheckbox {
+    margin-right: 1rem;
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    border: 1px solid $gray;
+    background-color: $white;
+    display: inline-block;
+    cursor: pointer;
+    position: relative;
+
+    &:after {
+      content: '';
+      position: absolute;
+      left: 8px;
+      top: 1px;
+      width: 5px;
+      height: 13px;
+      border: solid $blue;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+  }
+
+  &:checked + .customCheckbox:after {
+    opacity: 1;
+  }
+
+  + .customCheckbox:hover {
+    border-color: $blue;
+  }
+}
+
+// Estilos para o texto da tarefa
+.taskText {
+  flex-grow: 1;
+  color: $dark-gray;
+}
+
+// Estilo para o botão de deletar
+.deleteBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  img {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+// Estilos para o botão de adicionar tarefa
+.addTaskBtn {
+  display: block;
+  width: 450px;
+  height: 51px;
+  padding: 0.8rem;
+  margin: 1rem auto 6em;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(45deg, #0796D3, #53C0F0);
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+// Estilos para a sobreposição do modal
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: $modal-bg;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+// Estilos para o modal
+.modal {
+  background-color: $white;
+  padding: 2rem;
+  border-radius: 16px;
+  width: 450px;
+  height: 286px;
+  box-shadow: $shadow;
+  position: relative;
+  z-index: 1000;
+
+  h3 {
+    margin-bottom: 1rem;
+    font-size: 24px;
+    color: #000;
+    font-weight: 500;
+  }
+
+  h4 {
+    font-size: 16px;
+    color: #000;
+    font-weight: 400;
+    margin: 1.8em 0 10px;
+  }
+
+  .modalInput {
+    width: 100%;
+    padding: 0.7rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: $white;
+    font-size: 1rem;
+    color: $dark-gray;
+  }
+
+  .modalActions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1em;
+
+    .cancelBtn {
+      background-color: #E7EEFB;
+      font-weight: 600;
+      padding: 0.7rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 185px;
+      height: 51px;
+      font-size: 16px;
+    }
+
+    .addBtn {
+      background: linear-gradient(35deg, #0796D3, #53C0F0);
+      color: white !important;
+      padding: 0.7rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 185px;
+      height: 51px;
+      font-size: 16px;
+    }
+  }
+}
+
+// Estilos para o modal de deletar tarefa
+.deleteModal {
+  background-color: $white;
+  padding: 2rem;
+  border-radius: 16px;
+  width: 450px;
+  height: 232px;
+  box-shadow: $shadow;
+  position: relative;
+  z-index: 1000;
+
+  h3 {
+    margin-bottom: 1rem;
+    font-size: 24px;
+    color: #000;
+    font-weight: 500;
+  }
+
+  p {
+    margin-top: 2em;
+    font-size: 16px;
+    color: #000;
+  }
+
+  .modalActions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 3em;
+
+    .deleteBtn {
+      background: linear-gradient(25deg, #D30707, #F05353);
+      color: white;
+      padding: 0.7rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 185px;
+      height: 51px;
+    }
+  }
+}

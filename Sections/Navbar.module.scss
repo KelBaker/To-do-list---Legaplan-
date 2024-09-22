@@ -1,0 +1,38 @@
+// Variáveis
+$white: #ffffff;
+$light-gray: #d7dde9;
+$black: #000000;
+
+.navbar {
+  background-color: $white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: $black;
+  height: 5em;
+  padding: 0 3em;
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 93%;
+    height: 0.2vh;
+    background: $light-gray;
+    transform: translateX(-50%);
+  }
+
+  h1 {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0;
+    text-align: center;
+  }
+}
+
+.logo {
+  margin-left: 0;
+}
